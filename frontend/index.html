@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#fafbf9">
+  <meta name="description" content="Stündliche Strompreisprognose und die günstigste durchgehende Ladezeit für dein Elektroauto.">
+  <title>Chargecast · Strompreise und Ladeplanung</title>
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <link rel="stylesheet" href="./css/style.css">
+  <script type="module" src="./js/app.js"></script>
+</head>
+<body>
+<div class="page">
+  <header class="site-header">
+    <a class="site-brand" href="./">Chargecast</a>
+  </header>
+  <main>
+    <section aria-labelledby="forecast-title">
+      <header class="forecast-heading">
+        <div><h1 id="forecast-title">Strompreise</h1><p id="forecast-dates">Stündliche Prognose für die nächsten 7 Tage</p></div>
+        <span class="chart-unit">ct/kWh</span>
+      </header>
+      <p class="form-note" id="forecast-updated" role="status" hidden></p>
+      <div class="chart-container" id="chart-container" aria-busy="true">
+        <div class="status" id="forecast-status" role="status"><p id="forecast-message">Prognose wird geladen…</p><button id="forecast-retry" hidden>Erneut versuchen</button></div>
+        <div id="price-chart" class="price-chart" role="img" aria-label="Stündliche Strompreisprognose in ct/kWh. Werte durch Berühren oder mit der Maus anzeigen." hidden></div>
+      </div>
+      <noscript><p class="error">Bitte JavaScript aktivieren, um die Prognose und Ladeplanung zu verwenden.</p></noscript>
+      <section class="charging-panel" aria-labelledby="charging-title">
+        <div class="charging-heading"><h2 id="charging-title">Wann möchtest du laden?</h2><p>Finde die günstigste zusammenhängende Ladezeit in den nächsten Tagen.</p></div>
+        <form id="charging-form" class="charging-form">
+          <label>Ich möchte laden für<select id="hours" name="hours" required></select></label>
+          <label>Innerhalb von<select id="days" name="days" required></select></label>
+          <button id="find-window" type="submit" disabled>Günstigste Ladezeit finden</button>
+        </form>
+        <p class="form-note" id="form-note" hidden></p>
+        <div class="charging-feedback" id="charging-feedback" aria-live="polite" aria-atomic="true"></div>
+      </section>
+      <p class="price-note">Prognostizierte Börsenpreise. Dein Stromtarif kann durch Steuern, Netzentgelte und weitere Kosten abweichen.</p>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <p><span>Chargecast</span> · Strompreisprognosen für günstigeres Laden.</p>
+    <nav aria-label="Weitere Informationen"><a href="https://github.com/JRaabe94/chargecast">Über das Projekt</a><a href="./impressum.html">Impressum</a><a href="./datenschutz.html">Datenschutz</a></nav>
+  </footer>
+</div>
+</body>
+</html>

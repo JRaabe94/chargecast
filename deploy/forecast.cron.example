@@ -1,0 +1,3 @@
+# Prepare only: enable after a successful manual upload. Pi timezone: Europe/Berlin.
+# 06:15 avoids the DST transition hour. Logs are written by update.sh.
+15 6 * * * /bin/bash /home/pi/projects/chargecast/deploy/update.sh
