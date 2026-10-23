@@ -1,0 +1,7 @@
+.legal-content { max-width: 760px; line-height: 1.65; overflow-wrap: anywhere; }
+.legal-content section { margin-top: 28px; }
+.legal-content h2 { margin-bottom: 12px; }
+.legal-content p { line-height: inherit; }
+.legal-content address { font-style: normal; }
+.legal-content a { color: #39705a; text-underline-offset: 3px; }
+.legal-content li + li { margin-top: 8px; }

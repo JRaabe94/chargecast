@@ -1,0 +1,15 @@
+# Normalize text files in Git
+* text=auto
+
+# Keep shell scripts compatible with Linux
+*.sh text eol=lf
+
+# Consistent line endings for project files
+*.py text eol=lf
+*.md text eol=lf
+*.css text eol=lf
+*.js text eol=lf
+*.json text eol=lf
+*.html text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf

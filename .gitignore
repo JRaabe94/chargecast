@@ -1,0 +1,45 @@
+
+# Local environments and editor settings
+.venv/
+.idea/
+.pi-session/
+.install-tmp/
+
+# Local tests and Python caches
+/tests/
+__pycache__/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.py[cod]
+
+# Secrets and machine-specific configuration
+.env
+.env.*
+!.env.example
+deploy.env
+*.pem
+*.key
+
+# Raspberry Pi setup examples (kept locally)
+/deploy/deploy.env.example
+/deploy/forecast.cron.example
+
+# Trained model artifacts
+/models/**/*.pkl
+/models/**/*.joblib
+/models/**/*.ubj
+/models/**/*.json
+
+# Generated data and forecasts
+/data/raw/*.csv
+/data/processed/**/*.csv
+/data/predictions/forecast.json
+/data/predictions/multi_horizon/*.csv
+/data/predictions/recursive/*.csv
+/frontend/data/forecast.json
+
+# Logs and temporary files
+/logs/
+*.log
+*.tmp
