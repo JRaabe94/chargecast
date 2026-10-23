@@ -57,10 +57,20 @@ def evaluate_week(week_dir, forecasts, actual_prices):
     if not np.isfinite(predicted).all() or not np.isfinite(observed).all():
         raise ValueError(f"Non-finite prices in {week_dir.name}")
 
+    generated_at = pd.Timestamp(monday["generated_at"])
+    first_available = generated_at.ceil("h")
+    start_index = int(target_index.searchsorted(first_available))
+
     charging = {}
     for hours in CHARGING_HOURS:
-        predicted_start = int(np.argmin(np.convolve(predicted, np.ones(hours), "valid")))
-        optimal_start = int(np.argmin(np.convolve(observed, np.ones(hours), "valid")))
+        if len(predicted) - start_index < hours:
+            raise ValueError(f"Not enough future hours for {hours}h charging in {week_dir.name}")
+        predicted_start = start_index + int(
+            np.argmin(np.convolve(predicted[start_index:], np.ones(hours), "valid"))
+        )
+        optimal_start = start_index + int(
+            np.argmin(np.convolve(observed[start_index:], np.ones(hours), "valid"))
+        )
         predicted_actual_cost = float(observed[predicted_start:predicted_start + hours].mean() * CHARGING_KWH / 100)
         optimal_cost = float(observed[optimal_start:optimal_start + hours].mean() * CHARGING_KWH / 100)
         charging[str(hours)] = {
