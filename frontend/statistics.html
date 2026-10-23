@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#fafbf9">
+  <meta name="description" content="Wie zuverlässig sind die Chargecast-Strompreisprognosen? Vergleiche Wochenprognosen mit tatsächlichen Preisen.">
+  <title>Chargecast · Prognosequalität</title>
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <link rel="stylesheet" href="./css/style.css">
+  <script type="module" src="./js/statistics.js"></script>
+</head>
+<body>
+<div class="page">
+  <header class="site-header">
+    <a class="site-brand" href="./">Chargecast</a>
+    <nav aria-label="Hauptnavigation"><a href="./">Strompreise</a><a href="./statistics.html" aria-current="page">Statistik</a></nav>
+  </header>
+  <main>
+    <section aria-labelledby="statistics-title">
+      <header class="forecast-heading">
+        <div><h1 id="statistics-title">Prognosequalität</h1><p>Wie gut stimmen unsere Wochenprognosen mit den tatsächlichen Strompreisen überein?</p></div>
+        <span class="chart-unit">ct/kWh</span>
+      </header>
+      <p id="statistics-status" class="statistics-status" role="status">Statistik wird geladen…</p>
+      <div id="statistics-content" hidden>
+        <div class="statistics-controls">
+          <label for="statistics-week">Prognosewoche</label>
+          <select id="statistics-week"></select>
+          <div class="statistics-modes" role="group" aria-label="Diagrammansicht">
+            <button type="button" id="mode-simple" aria-pressed="true">Einfach</button>
+            <button type="button" id="mode-detail" aria-pressed="false">Detailansicht</button>
+          </div>
+        </div>
+        <p id="statistics-description" class="statistics-description"></p>
+        <div class="chart-container"><div id="statistics-chart" class="price-chart" role="img" aria-label="Vergleich der prognostizierten und tatsächlichen Strompreise"></div></div>
+        <div class="statistics-summary">
+          <div><span>Mittlere Preisabweichung</span><strong id="statistics-mae">–</strong></div>
+          <div><span>Zusätzliche Ladekosten bei 30 kWh</span><strong id="statistics-cost">–</strong></div>
+        </div>
+        <section class="statistics-charging" aria-labelledby="statistics-charging-title">
+          <h2 id="statistics-charging-title">Wie gut war die Ladeempfehlung?</h2>
+          <label for="statistics-hours">Ladedauer</label>
+          <select id="statistics-hours"><option value="2">2 Stunden</option><option value="4" selected>4 Stunden</option><option value="6">6 Stunden</option><option value="8">8 Stunden</option></select>
+          <p id="statistics-window"></p>
+          <p class="price-note">Verglichen wird das günstigste zusammenhängende Ladefenster der Montagsprognose mit dem tatsächlichen Optimum im selben Zeitraum. Die Kosten beziehen sich auf 30 kWh zu Börsenpreisen.</p>
+        </section>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <p><span>Chargecast</span> · Strompreisprognosen für günstigeres Laden.</p>
+    <nav aria-label="Weitere Informationen"><a href="https://github.com/JRaabe94/chargecast">Über das Projekt</a><a href="./impressum.html">Impressum</a><a href="./datenschutz.html">Datenschutz</a></nav>
+  </footer>
+</div>
+</body>
+</html>
