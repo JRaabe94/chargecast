@@ -18,7 +18,6 @@ if [[ "$MODE" == upload ]]; then
     source "$CONFIG"
     : "${UPLOAD_HOST:?Set UPLOAD_HOST to your SSH config alias}"
     : "${UPLOAD_DIR:?Set UPLOAD_DIR to the existing webspace data directory}"
-    # Keep remote command arguments literal; no shell metacharacters or traversal.
     [[ "$UPLOAD_HOST" =~ ^[a-zA-Z0-9][a-zA-Z0-9._-]*$ ]]
     [[ "$UPLOAD_DIR" =~ ^/[a-zA-Z0-9_./-]+$ && "$UPLOAD_DIR" != *..* ]]
 fi
@@ -27,11 +26,26 @@ export OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=1
 echo "$(date -Is) Forecast started ($MODE)"
 "$ROOT/.venv/bin/python" -u -m src.models.multi_horizon.predict
 if [[ "$MODE" == upload ]]; then
-    # scp uses the configured SSH key and known_hosts. Never prompt during cron.
     scp -B -o StrictHostKeyChecking=yes -o ConnectTimeout=30 \
         "$ROOT/data/predictions/forecast.json" "$UPLOAD_HOST:$UPLOAD_DIR/forecast.json.tmp"
     ssh -o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=30 "$UPLOAD_HOST" \
         "mv -f -- '$UPLOAD_DIR/forecast.json.tmp' '$UPLOAD_DIR/forecast.json'"
     echo "$(date -Is) Upload published"
+    publish_statistics() {
+        "$ROOT/.venv/bin/python" -u -m src.statistics.archive || return 1
+        "$ROOT/.venv/bin/python" -u -m src.statistics.build || return 1
+        if [[ ! -f "$ROOT/data/predictions/statistics.json" ]]; then
+            return 0
+        fi
+        scp -B -o StrictHostKeyChecking=yes -o ConnectTimeout=30 \
+            "$ROOT/data/predictions/statistics.json" "$UPLOAD_HOST:$UPLOAD_DIR/statistics.json.tmp" || return 1
+        ssh -o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=30 "$UPLOAD_HOST" \
+            "mv -f -- '$UPLOAD_DIR/statistics.json.tmp' '$UPLOAD_DIR/statistics.json'" || return 1
+        echo "$(date -Is) Statistics published"
+        "$ROOT/.venv/bin/python" -u -m src.statistics.archive --prune || return 1
+    }
+    if ! publish_statistics; then
+        echo "$(date -Is) Statistics update failed; forecast remains published"
+    fi
 fi
 echo "$(date -Is) Forecast completed"

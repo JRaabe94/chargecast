@@ -11,8 +11,11 @@ class Handler(SimpleHTTPRequestHandler):
         super().__init__(*args, directory=str(ROOT / "frontend"), **kwargs)
 
     def translate_path(self, path):
-        if urlsplit(path).path == "/data/forecast.json":
+        request_path = urlsplit(path).path
+        if request_path == "/data/forecast.json":
             return str(ROOT / "data/predictions/forecast.json")
+        if request_path == "/data/statistics.json":
+            return str(ROOT / "data/predictions/statistics.json")
         return super().translate_path(path)
 
     def end_headers(self):

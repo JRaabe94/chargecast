@@ -37,6 +37,8 @@ deploy.env
 /data/predictions/forecast.json
 /data/predictions/multi_horizon/*.csv
 /data/predictions/recursive/*.csv
+/data/predictions/statistics.json
+/data/predictions/archive/
 /frontend/data/forecast.json
 
 # Logs and temporary files
